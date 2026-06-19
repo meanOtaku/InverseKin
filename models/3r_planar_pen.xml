@@ -58,9 +58,9 @@
   </worldbody>
 
   <actuator>
-    <motor name="joint1_motor" joint="joint1" gear="0.2" ctrllimited="true" ctrlrange="-1 1"/>
-    <motor name="joint2_motor" joint="joint2" gear="0.2" ctrllimited="true" ctrlrange="-1 1"/>
-    <motor name="joint3_motor" joint="joint3" gear="0.2" ctrllimited="true" ctrlrange="-1 1"/>
+    <position name="joint1_pos" joint="joint1" kp="8" ctrlrange="-180 180"/>
+    <position name="joint2_pos" joint="joint2" kp="8" ctrlrange="-160 160"/>
+    <position name="joint3_pos" joint="joint3" kp="8" ctrlrange="-180 180"/>
   </actuator>
 
   <keyframe>

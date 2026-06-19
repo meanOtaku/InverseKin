@@ -46,6 +46,7 @@ def main() -> None:
     data = mujoco.MjData(model)
 
     data.qpos[:] = [math.radians(args.theta1), math.radians(args.theta2), math.radians(args.theta3)]
+    data.ctrl[:] = data.qpos[:]
     mujoco.mj_forward(model, data)
 
     pen_tip_id = model.site("pen_tip").id
@@ -67,12 +68,23 @@ def print_pen_tip(position) -> None:
     print(f"Pen tip position: x={x:.4f}, y={y:.4f}, z={z:.4f}")
 
 
+SWEEP_PERIODS_SECONDS = (6.0, 8.0, 5.0)
+
+
 def run_viewer(mujoco, model, data) -> None:
     import mujoco.viewer
+
+    centers = model.jnt_range.mean(axis=1)
+    amplitudes = (model.jnt_range[:, 1] - model.jnt_range[:, 0]) / 2.0
+    start_time = time.time()
 
     with mujoco.viewer.launch_passive(model, data) as viewer:
         while viewer.is_running():
             step_start = time.time()
+            elapsed = step_start - start_time
+            for i, period in enumerate(SWEEP_PERIODS_SECONDS):
+                phase = 2.0 * math.pi * elapsed / period
+                data.ctrl[i] = centers[i] + amplitudes[i] * math.sin(phase)
             mujoco.mj_step(model, data)
             viewer.sync()
             sleep_time = model.opt.timestep - (time.time() - step_start)
