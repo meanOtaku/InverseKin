@@ -7,17 +7,26 @@
     <joint damping="0.5" armature="0.01"/>
     <geom condim="3" friction="0.8 0.1 0.1"/>
     <default class="link">
-      <geom type="capsule" size="0.018" rgba="0.12 0.43 0.92 1"/>
+      <geom type="capsule" size="0.014" material="link_metal"/>
     </default>
     <default class="raised_link">
-      <geom type="capsule" size="0.016" rgba="0.95 0.56 0.08 1"/>
+      <geom type="capsule" size="0.012" material="link_metal"/>
+    </default>
+    <default class="joint_housing">
+      <geom type="cylinder" size="0.035 0.018" material="joint_metal"/>
+    </default>
+    <default class="joint_cap">
+      <geom type="cylinder" size="0.039 0.006" material="cap_blue" contype="0" conaffinity="0"/>
     </default>
   </default>
 
   <asset>
     <material name="white_surface" rgba="1 1 1 1"/>
     <material name="pen_black" rgba="0.02 0.025 0.03 1"/>
-    <material name="joint_dark" rgba="0.12 0.16 0.22 1"/>
+    <material name="base_dark" rgba="0.18 0.19 0.2 1"/>
+    <material name="joint_metal" rgba="0.42 0.45 0.45 1" specular="0.45" shininess="0.35"/>
+    <material name="link_metal" rgba="0.74 0.77 0.75 1" specular="0.65" shininess="0.55"/>
+    <material name="cap_blue" rgba="0.38 0.78 0.96 1" specular="0.25" shininess="0.2"/>
   </asset>
 
   <worldbody>
@@ -26,26 +35,35 @@
     <camera name="side_view" pos="0.25 -0.8 0.25" xyaxes="1 0 0 0 0 1"/>
 
     <geom name="writing_surface" type="plane" pos="0 0 0" size="0.45 0.45 0.01" material="white_surface"/>
+    <site name="target_marker" pos="0.26 0 0.006" size="0.01" rgba="1 0.1 0.1 1"/>
 
     <body name="base" pos="0 0 0.055">
-      <geom name="base_plate" type="cylinder" size="0.045 0.012" material="joint_dark"/>
+      <geom name="base_plate" type="box" pos="0 0 -0.043" size="0.07 0.07 0.012" material="base_dark"/>
+      <geom name="base_turntable" type="cylinder" pos="0 0 -0.022" size="0.052 0.014" material="joint_metal"/>
+      <geom name="base_cap" class="joint_cap" pos="0 0 -0.004"/>
 
       <body name="link1" pos="0 0 0">
         <joint name="joint1" type="hinge" axis="0 0 1" range="-180 180"/>
-        <geom name="link1_bar" class="link" fromto="0 0 0 0.14 0 0"/>
-        <geom name="joint1_hub" type="sphere" size="0.028" material="joint_dark"/>
+        <geom name="link1_bar" class="link" fromto="0.040 0 0 0.100 0 0"/>
+        <geom name="joint1_hub" class="joint_housing"/>
+        <geom name="joint1_cap_top" class="joint_cap" pos="0 0 0.024"/>
+        <geom name="joint1_cap_bottom" class="joint_cap" pos="0 0 -0.024"/>
 
         <body name="link2_bridge" pos="0.14 0 0">
           <joint name="joint2" type="hinge" axis="0 0 1" range="-160 160"/>
-          <geom name="joint2_hub" type="sphere" size="0.024" material="joint_dark"/>
-          <geom name="link2_riser_up" class="raised_link" fromto="0 0 0 0 0 0.055"/>
-          <geom name="link2_raised_bar" class="raised_link" fromto="0 0 0.055 0.11 0 0.055"/>
-          <geom name="link2_riser_down" class="raised_link" fromto="0.11 0 0.055 0.11 0 0"/>
+          <geom name="joint2_hub" class="joint_housing"/>
+          <geom name="joint2_cap_top" class="joint_cap" pos="0 0 0.024"/>
+          <geom name="joint2_cap_bottom" class="joint_cap" pos="0 0 -0.024"/>
+          <geom name="link2_riser_up" class="raised_link" fromto="0 0 0.036 0 0 0.064"/>
+          <geom name="link2_raised_bar" class="raised_link" fromto="0 0 0.064 0.11 0 0.064"/>
+          <geom name="link2_riser_down" class="raised_link" fromto="0.11 0 0.064 0.11 0 0.036"/>
 
           <body name="link3" pos="0.11 0 0">
             <joint name="joint3" type="hinge" axis="0 0 1" range="-180 180"/>
-            <geom name="joint3_hub" type="sphere" size="0.024" material="joint_dark"/>
-            <geom name="link3_bar" class="link" fromto="0 0 0 0.125 0 0"/>
+            <geom name="joint3_hub" class="joint_housing"/>
+            <geom name="joint3_cap_top" class="joint_cap" pos="0 0 0.024"/>
+            <geom name="joint3_cap_bottom" class="joint_cap" pos="0 0 -0.024"/>
+            <geom name="link3_bar" class="link" fromto="0.040 0 0 0.125 0 0"/>
 
             <body name="pen" pos="0.125 0 0">
               <geom name="pen_body" type="capsule" fromto="0 0 0 0 0 -0.049" size="0.006" material="pen_black"/>

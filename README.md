@@ -1,71 +1,71 @@
 # InverseKin
 
-This project starts with a 3R planar robot model:
-
-- Link 1 and link 3 sit at the same height.
-- Link 2 is raised and connects the two same-height links.
-- A pen is mounted at the end of link 3 and reaches down to a white writing surface.
-
-Run the first model:
-
-```bash
-python3 main.py
-```
-
-This creates:
-
-```text
-outputs/3r_planar_robot.svg
-```
-
-You can change the joint angles:
-
-```bash
-python3 main.py --theta1 30 --theta2 -45 --theta3 60
-```
-
-## MuJoCo simulation
-
-The MuJoCo model is here:
-
-```text
-models/3r_planar_pen.xml
-```
-
-It contains:
+This project simulates a 3R planar robot in MuJoCo. The robot has:
 
 - Three revolute joints rotating about the z-axis for planar motion.
 - Link 1 and link 3 at the same height.
 - A raised bridge-style link 2 connecting link 1 to link 3.
 - A pen mounted at the end of link 3, with the pen tip touching the white writing plane.
+- Industrial-style cylindrical joint housings and tube links, with a low planar base.
 
-Create and use the virtual environment:
+The MuJoCo model is:
+
+```text
+models/3r_planar_pen.xml
+```
+
+## Setup
+
+Create or repair the virtual environment:
 
 ```bash
-python3 -m venv venv
+scripts/setup_venv.sh
+```
+
+You can activate it if you want an interactive shell:
+
+```bash
 source venv/bin/activate
 ```
 
-Install MuJoCo:
+## Generate Data
+
+Use `main.py` as the entry point:
 
 ```bash
-python -m pip install -r requirements.txt
+python3 main.py
 ```
 
-Run a headless simulation check:
+This generates one combined CSV:
 
-```bash
-python simulate_mujoco.py
+```text
+outputs/trajectory_data.csv
 ```
 
-Open the interactive viewer:
+The CSV contains horizontal, vertical, and zig-zag writing-surface paths. Each row records:
 
-```bash
-python simulate_mujoco.py --viewer
+```text
+path,sample,time_s,target_x_m,target_y_m,x_m,y_m,z_m,theta1_deg,theta2_deg,theta3_deg,torque1_nm,torque2_nm,torque3_nm
 ```
 
-Try another pose:
+Customize the data generation:
 
 ```bash
-python simulate_mujoco.py --theta1 30 --theta2 -45 --theta3 60
+python3 main.py --samples-per-line 151 --zigzag-rows 9 --zigzag-samples-per-row 51 --output outputs/custom_trajectory_data.csv
+```
+
+## Viewer
+
+Open the MuJoCo viewer:
+
+```bash
+scripts/open_viewer.sh
+```
+
+The viewer plays the horizontal, vertical, and zig-zag trajectories in a loop.
+
+On macOS, you can also double-click:
+
+```text
+open_viewer.command
 ```
