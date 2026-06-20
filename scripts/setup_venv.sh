@@ -20,5 +20,5 @@ else
 fi
 
 echo "Virtual environment is ready: $PROJECT_ROOT/venv"
-echo "Generate data: python3 main.py"
-echo "Open viewer: scripts/open_viewer.sh"
+echo "Open viewer: python3 main.py"
+echo "Generate data: python3 main.py --headless"

@@ -35,9 +35,9 @@
     <camera name="side_view" pos="0.25 -0.8 0.25" xyaxes="1 0 0 0 0 1"/>
 
     <geom name="writing_surface" type="plane" pos="0 0 0" size="0.45 0.45 0.01" material="white_surface"/>
-    <site name="target_marker" pos="0.26 0 0.006" size="0.01" rgba="1 0.1 0.1 1"/>
+    <site name="target_marker" pos="0.02 -0.32 0.006" size="0.01" rgba="1 0.1 0.1 1"/>
 
-    <body name="base" pos="0 0 0.055">
+    <body name="base" pos="-0.32 -0.32 0.055">
       <geom name="base_plate" type="box" pos="0 0 -0.043" size="0.07 0.07 0.012" material="base_dark"/>
       <geom name="base_turntable" type="cylinder" pos="0 0 -0.022" size="0.052 0.014" material="joint_metal"/>
       <geom name="base_cap" class="joint_cap" pos="0 0 -0.004"/>
